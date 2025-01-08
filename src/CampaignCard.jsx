@@ -5,6 +5,7 @@ import { useFlashMessage } from './FlashMessageStore';
 
 const CampaignCard = ({ campaignId, campaignTitle, imageUrl, campaignDescription, campaignProgress }) => {
     console.log('campaignId inside CampaignCard:', campaignId);
+    console.log("campaignTitle inside CampaignCard.jsx", campaignTitle)
 
     const { addToCart } = useCart();
     const [, setLocation] = useLocation();

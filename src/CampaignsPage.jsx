@@ -9,7 +9,7 @@ function CampaignsPage() {
         const fetchCampaigns = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/campaigns`);
-                console.log(response.data);
+                console.log("response from backend", response.data);
                 setCampaigns(response.data);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
@@ -26,7 +26,7 @@ function CampaignsPage() {
                 {campaigns.map(campaign => (
                     <div key={campaign.campaign_id} className="col-md-4 mb-4">
                         <CampaignCard
-                            id={campaign.campaign_id}
+                            campaignId={campaign.campaign_id}
                             imageUrl={campaign.image_url}
                             campaignTitle={campaign.campaign_name}
                             campaignDescription={campaign.campaign_description}
