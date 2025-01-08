@@ -1,0 +1,62 @@
+/* Palestine Flag Colors */
+.palestine-red {
+    background-color: #d50b21;
+}
+
+.palestine-green {
+    background-color: #007847;
+}
+
+.palestine-black {
+    background-color: #000000;
+}
+
+.palestine-white {
+    background-color: #ffffff;
+}
+
+.campaign-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.campaign-card img {
+    max-height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.label {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.btn-donate {
+    background-color: #d50b21;
+    color: white;
+}
+
+.btn-donate:hover {
+    background-color: #b30a1b;
+}
+
+.flash-alert {
+    animation: fadeOut 2s ease forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    /* Stay fully visible for the first 70% of time */
+    100% {
+        opacity: 0;
+    }
+}

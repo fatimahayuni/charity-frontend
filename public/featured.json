@@ -1,0 +1,39 @@
+[
+    {
+      "id": 1,
+      "title": "Build a Well Campaign",
+      "description": "Join us in bringing clean and safe drinking water to communities in need by building sustainable wells.",
+      "goal": 50000,
+      "raised": 19999,
+      "progress": 40,
+      "image": "https://picsum.photos/id/20/300/200"
+    },
+    {
+      "id": 2,
+      "title": "Build a School Campaign",
+      "description": "Support our mission to construct a school that provides quality education to underprivileged children.",
+      "goal": 30000,
+      "raised": 12000,
+      "progress": 40,
+      "image": "https://picsum.photos/id/1/300/200"
+    },
+    {
+      "id": 3,
+      "title": "Build a Hospital Campaign",
+      "description": "Help us build a hospital equipped with modern facilities to serve healthcare needs in remote areas.",
+      "goal": 20000,
+      "raised": 15000,
+      "progress": 75,
+      "image": "https://picsum.photos/id/26/300/200"
+    },
+    {
+      "id": 4,
+      "title": "Build a Maternity Hospital Campaign",
+      "description": "Join our efforts to establish a maternity hospital that provides essential care to mothers and newborns.",
+      "goal": 40000,
+      "raised": 22000,
+      "progress": 55,
+      "image": "https://picsum.photos/id/96/300/200"
+    }
+  ]
+  

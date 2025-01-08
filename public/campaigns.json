@@ -1,0 +1,48 @@
+[
+    {
+      "id": 1,
+      "title": "Solar Energy for Villages",
+      "description": "Help us install solar panels in remote villages to provide clean and sustainable energy solutions.",
+      "goal": 60000,
+      "raised": 30000,
+      "progress": 50,
+      "image": "https://picsum.photos/id/50/300/200"
+    },
+    {
+      "id": 2,
+      "title": "Emergency Relief Fund",
+      "description": "Support families affected by natural disasters with essential supplies and shelter through this fund.",
+      "goal": 40000,
+      "raised": 25000,
+      "progress": 62,
+      "image": "https://picsum.photos/id/65/300/200"
+    },
+    {
+      "id": 3,
+      "title": "Reforestation Project",
+      "description": "Join us in planting thousands of trees to restore deforested areas and combat climate change.",
+      "goal": 50000,
+      "raised": 22000,
+      "progress": 44,
+      "image": "https://picsum.photos/id/70/300/200"
+    },
+    {
+      "id": 4,
+      "title": "Affordable Housing Initiative",
+      "description": "Help us construct affordable homes for families living in poverty-stricken areas.",
+      "goal": 80000,
+      "raised": 32000,
+      "progress": 40,
+      "image": "https://picsum.photos/id/80/300/200"
+    },
+    {
+      "id": 5,
+      "title": "Community Health Awareness",
+      "description": "Support our campaign to conduct health awareness workshops and screenings in rural communities.",
+      "goal": 20000,
+      "raised": 15000,
+      "progress": 75,
+      "image": "https://picsum.photos/id/90/300/200"
+    }
+  ]
+  
