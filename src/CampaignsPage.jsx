@@ -28,8 +28,8 @@ function CampaignsPage() {
                         <CampaignCard
                             id={campaign.campaign_id}
                             imageUrl={campaign.image_url}
-                            campaignName={campaign.title}
-                            campaignDescription={campaign.description}
+                            campaignTitle={campaign.campaign_name}
+                            campaignDescription={campaign.campaign_description}
                             donationAmount={campaign.current_amount}
                             campaignGoal={campaign.target_amount}
                             campaignRaised={campaign.current_amount}

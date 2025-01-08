@@ -24,7 +24,7 @@ function HomePage() {
             campaignElements.push(
                 <div key={campaign.id} className="col-md-3 mb-4">
                     <CampaignCard
-                        id={campaign.id}
+                        campaignId={campaign.id}
                         campaignTitle={campaign.title}
                         campaignDescription={campaign.description}
                         campaignGoal={campaign.goal}

@@ -21,7 +21,7 @@ const ShoppingCart = () => {
                                     <h5>{item.campaign_name}</h5>
                                     <p>{item.description}</p>
                                     <img
-                                        src={item.media_url}
+                                        src={item.image_url}
                                         alt={item.campaign_name}
                                         className="img-fluid rounded"
                                         style={{ maxWidth: '150px', maxHeight: '100px' }}
