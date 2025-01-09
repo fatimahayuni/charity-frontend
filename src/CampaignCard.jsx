@@ -4,8 +4,6 @@ import { useLocation } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
 
 const CampaignCard = ({ campaignId, campaignTitle, imageUrl, campaignDescription, campaignProgress }) => {
-    console.log('campaignId inside CampaignCard:', campaignId);
-    console.log("campaignTitle inside CampaignCard.jsx", campaignTitle)
 
     const { addToCart } = useCart();
     const [, setLocation] = useLocation();
@@ -26,8 +24,6 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrl, campaignDescription
             imageUrl: imageUrl,
             donationAmount: selectedDonation,
         };
-
-        console.log('campaignData:', campaignData);
 
         addToCart(campaignData, selectedDonation); // Add campaign data to cart
         showMessage('Donation added to cart', 'success'); // Show success message

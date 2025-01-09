@@ -1,9 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from './CartStore';
+import { useJwt } from './UserStore';
+import axios from 'axios';
 
 const ShoppingCart = () => {
-    const { cart, getCartTotal, removeFromCart } = useCart();
-    console.log("Cart", cart)
+    const { cart, getCartTotal, removeFromCart, setCartContent } = useCart();
+    const { getJwt } = useJwt();
+    const [isUpdating, setIsUpdating] = useState(false);
+    const isFirstRender = useRef(true); // Track first render
+
+    const fetchCart = async () => {
+        const jwt = getJwt();
+        try {
+            const response = await axios.get(import.meta.env.VITE_API_URL + '/api/cart', {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            });
+            console.log('Cart:', response.data);
+            setCartContent(response.data);
+        } catch (error) {
+            console.error('Error fetching cart:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchCart();
+        return () => { console.log('cleanup') }
+    }, []);
+
+    const updateCart = async () => {
+        setIsUpdating(true);
+        const jwt = getJwt();
+        try {
+            const updatedCart = cart.map((item) => ({
+                product_id: item.product_id,
+                quantity: item.quantity
+            }));
+
+            await axios.put(import.meta.env.VITE_API_URL + '/api/cart', { cartItems: updatedCart }, {
+                headers: {
+                    Authorization: `Bearer ${jwt}`
+                }
+            });
+        } catch (error) {
+            console.error('Error updating cart:', error);
+        } finally {
+            setIsUpdating(false);
+        }
+    };
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return; // Skip the first render
+        }
+        updateCart();
+        return () => { console.log('cleanup') }
+    }, [cart]);
+
     return (
         <div className="container mt-4">
             <h2>Your Donations</h2>
@@ -32,8 +87,8 @@ const ShoppingCart = () => {
                                     <button
                                         className="btn btn-danger btn-sm"
                                         onClick={() => removeFromCart(item.campaign_id)}
-                                    >
-                                        Remove
+                                        disabled={isUpdating}
+                                    >Remove
                                     </button>
                                 </div>
                             </li>

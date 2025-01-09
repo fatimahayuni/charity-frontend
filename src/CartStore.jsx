@@ -18,7 +18,6 @@ export const useCart = () => {
     };
 
     const addToCart = (campaign, selectedDonation) => {
-        console.log("Adding campaign to cart: ", campaign);
         setCart((currentCart) => {
             const existingItemIndex = currentCart.findIndex(item => item.campaign_id === campaign.campaign_id);
 
