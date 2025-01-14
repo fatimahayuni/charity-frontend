@@ -9,7 +9,6 @@ function HomePage() {
         const fetchFeaturedCampaigns = async () => {
             try {
                 const response = await axios.get('/featured.json');
-                console.log("response.data", response.data)
                 setFeaturedCampaigns(response.data);
             } catch (error) {
                 console.error('Error fetching featured campaigns:', error);
@@ -21,11 +20,13 @@ function HomePage() {
 
     const renderFeaturedCampaigns = () => {
         const campaignElements = [];
+
         for (const campaign of featuredCampaigns) {
+
             campaignElements.push(
-                <div key={campaign.campaign_id} className="col-md-3 mb-4">
+                <div key={campaign.id} className="col-md-3 mb-4">
                     <CampaignCard
-                        campaignId={campaign.campaign_id}
+                        campaignId={campaign.id}
                         campaignTitle={campaign.title}
                         campaignDescription={campaign.description}
                         campaignGoal={campaign.goal}
