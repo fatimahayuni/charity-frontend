@@ -65,6 +65,7 @@ export const useCart = () => {
 
     // Update cart on the backend whenever the cart changes
     useEffect(() => {
+        console.log("Cart updated:", cart);
         if (cart !== initialCart) {
             updateCart();
         }
@@ -91,7 +92,7 @@ export const useCart = () => {
                 };
 
                 // Log the new item
-                console.log("New item added to cart:", newItem);
+                console.log("New item added to cart:", newItem); //todo donation amount is in integer
                 return currentCart.concat(newItem);
             }
         });
@@ -122,7 +123,7 @@ export const useCart = () => {
                     },
                 }
             );
-            console.log("Server response:", response.data);
+            console.log("Fetched cart: ", response.data) //todo donation_amount is now showing as integer. 
 
             // Convert snake_case keys to camelCase for each item in the cart
             const camelCasedData = response.data.map((item) => {
@@ -133,9 +134,10 @@ export const useCart = () => {
                         camelCasedItem[snakeToCamel(key)] = item[key];
                     }
                 }
-                console.log("camelCasedItem: ", camelCasedItem)
+                console.log("camelCasedItem: ", camelCasedItem) //todo donation_amount is now showing as integer. 
                 return camelCasedItem;
             });
+            console.log("camelCasedData", camelCasedData) //todo donation_amount is now showing as integer. 
 
             setCart(Immutable(camelCasedData)); // Set the cart state with converted data
         } catch (error) {
@@ -148,16 +150,23 @@ export const useCart = () => {
 
     // Function to calculate the total price of items in the cart
     const getCartTotal = () => {
+        console.log("Cart content before calculation:", cart);
         return cart.reduce((total, item) => {
-            // Parse donation_amount as a number (float) before adding it to the total
-            const donationAmount = parseFloat(item.donation_amount);
-            // Add only if donation_amount is a valid number
+            console.log("Item in cart:", item); // Log each item to check
+            const donationAmount = item.donationAmount;
+            console.log("donationAmount", donationAmount)
+
             if (!isNaN(donationAmount)) {
                 total += donationAmount;
+            } else {
+                console.log("Donation amount is not valid:", item.donation_amount);
             }
+
+            console.log("total:", total); // Log total after each addition
             return total;
         }, 0);
     };
+
 
     const getCart = () => cart;
 

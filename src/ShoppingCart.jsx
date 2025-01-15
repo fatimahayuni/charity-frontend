@@ -15,7 +15,7 @@ export default function ShoppingCart() {
     } = useCart();
 
     const cart = getCart(); // Retrieve cart from the store
-    console.log("Cart Items:", cart);
+    console.log("Cart Items:", cart); //todo this is returning donation_amount as string. 
 
     const { getJwt } = useJwt();
 
@@ -58,7 +58,7 @@ export default function ShoppingCart() {
                 <>
                     <ul className="list-group">
                         {cart.map((item) => {
-                            console.log("item: ", item)
+                            console.log("item: ", item) // todo this is returning donation_amount as string
                             return (
                                 <li
                                     key={item.campaignId}
@@ -99,7 +99,8 @@ export default function ShoppingCart() {
             )}
 
             <div className="mt-3 text-end">
-                <h4>Total: ${getCartTotal()}</h4>
+                {console.log("Cart Total:", getCartTotal())}
+                <h4>Total: ${getCartTotal().toFixed(2)}</h4>
                 <button
                     className="btn btn-primary mt-2"
                     onClick={handleCheckout}
