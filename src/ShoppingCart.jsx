@@ -85,7 +85,7 @@ export default function ShoppingCart() {
                                     <div>
                                         <button
                                             className="btn btn-sm btn-danger"
-                                            onClick={() => removeFromCart(item.campaign_id)}
+                                            onClick={() => removeFromCart(item.campaignId)}
                                             disabled={isLoading}
                                         >
                                             Remove

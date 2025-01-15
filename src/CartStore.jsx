@@ -92,19 +92,28 @@ export const useCart = () => {
                 };
 
                 // Log the new item
-                console.log("New item added to cart:", newItem); //todo donation amount is in integer
+                console.log("New item added to cart:", newItem);
                 return currentCart.concat(newItem);
             }
         });
     };
 
+    const removeFromCart = (campaignId) => {
+        console.log("Before remove:", cart); // Log the current state of the cart
+        console.log("Attempting to remove campaignId:", campaignId);
 
-
-    const removeFromCart = (campaign_id) => {
         setCart((currentCart) => {
-            return currentCart.filter(item => item.campaign_id !== campaign_id);
+            const updatedCart = currentCart.filter((item) => {
+                console.log("Checking item:", item);
+                return item.campaignId !== campaignId; // Ensure the key matches
+            });
+
+            console.log("Updated cart after removal:", updatedCart); // Log the result
+            return updatedCart;
         });
-    }
+    };
+
+
 
     const snakeToCamel = (str) => {
         return str.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
@@ -123,7 +132,7 @@ export const useCart = () => {
                     },
                 }
             );
-            console.log("Fetched cart: ", response.data) //todo donation_amount is now showing as integer. 
+            console.log("Fetched cart: ", response.data)
 
             // Convert snake_case keys to camelCase for each item in the cart
             const camelCasedData = response.data.map((item) => {
@@ -134,10 +143,10 @@ export const useCart = () => {
                         camelCasedItem[snakeToCamel(key)] = item[key];
                     }
                 }
-                console.log("camelCasedItem: ", camelCasedItem) //todo donation_amount is now showing as integer. 
+                console.log("camelCasedItem: ", camelCasedItem)
                 return camelCasedItem;
             });
-            console.log("camelCasedData", camelCasedData) //todo donation_amount is now showing as integer. 
+            console.log("camelCasedData", camelCasedData)
 
             setCart(Immutable(camelCasedData)); // Set the cart state with converted data
         } catch (error) {
