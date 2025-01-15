@@ -3,23 +3,26 @@ import { useCart } from "./CartStore";
 import { useJwt } from "./UserStore";
 import axios from 'axios';
 
+
 export default function ShoppingCart() {
     // Get functions and state from the cart store
     const {
         getCart,
         getCartTotal,
-        addToCart,
         removeFromCart,
         fetchCart,
         isLoading,
     } = useCart();
 
     const cart = getCart(); // Retrieve cart from the store
+    console.log("Cart Items:", cart);
+
     const { getJwt } = useJwt();
 
     // Fetch the cart data when the component mounts
     useEffect(() => {
         fetchCart();
+        console.log("Cart after fetching:", cart)
     }, []);
 
 
@@ -55,6 +58,7 @@ export default function ShoppingCart() {
                 <>
                     <ul className="list-group">
                         {cart.map((item) => {
+                            console.log("item: ", item)
                             return (
                                 <li
                                     key={item.campaignId}
@@ -73,7 +77,7 @@ export default function ShoppingCart() {
                                     {/* Donation Amount Section */}
                                     <div>
                                         <p>
-                                            <strong>${item.donation_amount}</strong>
+                                            <strong>${item.donationAmount}</strong>
                                         </p>
                                     </div>
 
@@ -81,7 +85,7 @@ export default function ShoppingCart() {
                                     <div>
                                         <button
                                             className="btn btn-sm btn-danger"
-                                            onClick={() => deleteCartItem(item.campaign_id)}
+                                            onClick={() => removeFromCart(item.campaign_id)}
                                             disabled={isLoading}
                                         >
                                             Remove

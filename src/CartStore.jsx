@@ -4,6 +4,8 @@ import Immutable from "seamless-immutable";
 import { useEffect } from "react";
 import { useJwt } from "./UserStore";
 
+
+
 // Define the initial state of the cart. We put in one piece of test data
 const initialCart = Immutable([]);
 
@@ -31,17 +33,18 @@ export const useCart = () => {
         const jwt = getJwt();
         setIsLoading(true);
         try {
-            // Convert camelCase keys to snake_case before sending the data to the backend
-            const updatedCartItems = cart.map((item) => ({
-                id: item.id,  // Keep `id` as it is (no conversion needed)
-                campaign_id: camelToSnake(item.campaignId),  // Convert `campaignId` to `campaign_id`
-                campaign_title: camelToSnake(item.campaignTitle),  // Convert `campaignTitle` to `campaign_title`
-                image_url: camelToSnake(item.imageUrl),  // Convert `imageUrl` to `image_url`
-                donation_amount: camelToSnake(item.donationAmount),  // Convert `donationAmount` to `donation_amount`
-                added_at: camelToSnake(item.addedAt),  // Convert `addedAt` to `added_at`
-            }));
+            // Convert camelCase keys to snake_case for the backend
+            const updatedCartItems = cart.map((item) => {
+                const snakeCasedItem = {};
+                for (const key in item) {
+                    if (item.hasOwnProperty(key)) {
+                        // Convert the key (camelCase to snake_case) but keep the value unchanged
+                        snakeCasedItem[camelToSnake(key)] = item[key];
+                    }
+                }
+                return snakeCasedItem;
+            });
 
-            console.log("Sending Cart Items (snake_case):", updatedCartItems);
 
             const response = await axios.put(
                 `${import.meta.env.VITE_API_URL}/api/cart`,
@@ -60,9 +63,6 @@ export const useCart = () => {
         }
     };
 
-
-
-
     // Update cart on the backend whenever the cart changes
     useEffect(() => {
         if (cart !== initialCart) {
@@ -70,24 +70,34 @@ export const useCart = () => {
         }
     }, [cart]); // Depend on the cart state
 
-    const addToCart = (campaign, selectedDonation) => {
+    const addToCart = (campaignData) => {
+        console.log("Selected donation value before adding to cart:", campaignData.donationAmount);
+
         setCart((currentCart) => {
-            const existingItemIndex = currentCart.findIndex(item => item.campaign_id === campaign.campaign_id);
+            const existingItemIndex = currentCart.findIndex(item => item.campaign_id === campaignData.campaignId);
 
             if (existingItemIndex !== -1) {
                 // If the campaign already exists in the cart, do nothing (or update if needed)
                 return currentCart;
             } else {
-                // Using `setIn` to maintain immutability in the cart state
-                return currentCart.concat({
-                    campaign_id: campaign.campaignId,
-                    campaign_title: campaign.campaignTitle,
-                    image_url: campaign.imageUrl,
-                    donation_amount: selectedDonation,
-                });
+                // Create the new item to add to the cart with added_at timestamp
+                const newItem = {
+                    campaign_id: campaignData.campaignId,
+                    campaign_title: campaignData.campaignTitle,
+                    image_url: campaignData.imageUrl,
+                    donation_amount: campaignData.donationAmount,
+                    pledge_id: campaignData.pledgeId || null,  // Optional, only if available
+                    added_at: new Date().toISOString().slice(0, 19).replace('T', ' ')  // MySQL format: 'YYYY-MM-DD HH:MM:SS'
+                };
+
+                // Log the new item
+                console.log("New item added to cart:", newItem);
+                return currentCart.concat(newItem);
             }
         });
     };
+
+
 
     const removeFromCart = (campaign_id) => {
         setCart((currentCart) => {
