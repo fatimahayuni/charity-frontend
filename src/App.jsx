@@ -5,9 +5,10 @@ import CampaignsPage from './CampaignsPage';
 import RegisterPage from './RegisterPage';
 import ShoppingCart from './ShoppingCart';
 import { Route, Switch } from 'wouter';
-import DashboardPage from './DashboardPage';
 import { useFlashMessage } from './FlashMessageStore';
 import UserLogin from "./UserLogin"
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/login" component={UserLogin} />
                 <Route path="/cart" component={ShoppingCart} />
+                {/* <Route path="/adminform" component={AdminForm} /> */}
+
 
             </Switch>
 

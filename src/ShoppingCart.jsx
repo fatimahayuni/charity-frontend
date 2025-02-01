@@ -15,20 +15,21 @@ export default function ShoppingCart() {
     } = useCart();
 
     const cart = getCart(); // Retrieve cart from the store
-    console.log("Cart Items:", cart); //todo this is returning donation_amount as string. 
 
     const { getJwt } = useJwt();
 
     // Fetch the cart data when the component mounts
     useEffect(() => {
         fetchCart();
-        console.log("Cart after fetching:", cart)
     }, []);
 
 
     // API: Handle Checkout
     const handleCheckout = async () => {
         const jwt = getJwt();
+        console.log("Order items being sent:", cart); // Log the cart data being sent
+
+
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_API_URL}/api/checkout`,
@@ -39,6 +40,9 @@ export default function ShoppingCart() {
                     },
                 }
             );
+
+            // Log the response data to confirm the backend's response
+            console.log("Checkout Response:", response.data);
             // Redirect to Stripe Checkout
             window.location.href = response.data.url;
         } catch (error) {
@@ -57,11 +61,11 @@ export default function ShoppingCart() {
             ) : (
                 <>
                     <ul className="list-group">
+
                         {cart.map((item) => {
-                            console.log("item: ", item) // todo this is returning donation_amount as string
                             return (
                                 <li
-                                    key={item.campaignId}
+                                    key={`${item.campaignId}-${item.donationAmount}`}
                                     className="list-group-item d-flex justify-content-between align-items-center"
                                 >
                                     <div>
@@ -85,7 +89,7 @@ export default function ShoppingCart() {
                                     <div>
                                         <button
                                             className="btn btn-sm btn-danger"
-                                            onClick={() => removeFromCart(item.campaignId)}
+                                            onClick={() => removeFromCart(item.campaignId, item.donationAmount)} // Pass donation amount too
                                             disabled={isLoading}
                                         >
                                             Remove
@@ -99,7 +103,6 @@ export default function ShoppingCart() {
             )}
 
             <div className="mt-3 text-end">
-                {console.log("Cart Total:", getCartTotal())}
                 <h4>Total: ${getCartTotal().toFixed(2)}</h4>
                 <button
                     className="btn btn-primary mt-2"

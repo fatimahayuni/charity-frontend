@@ -46,6 +46,30 @@
     animation: fadeOut 2s ease forwards;
 }
 
+/* Hide numbers for carousel indicators */
+.carousel-indicators {
+    list-style: none;
+    /* Remove default list numbering */
+    padding-left: 0;
+    /* Remove default padding */
+}
+
+/* Style the indicators as dots */
+.carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    /* Inactive indicator color */
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.carousel-indicators .active {
+    background-color: #000;
+    /* Active indicator color */
+}
+
 @keyframes fadeOut {
     0% {
         opacity: 1;

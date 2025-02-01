@@ -55,7 +55,6 @@ export const useCart = () => {
                     },
                 }
             );
-            console.log("Server response:", response);
         } catch (error) {
             console.error("Error updating cart:", error.response?.data || error);
         } finally {
@@ -65,14 +64,12 @@ export const useCart = () => {
 
     // Update cart on the backend whenever the cart changes
     useEffect(() => {
-        console.log("Cart updated:", cart);
         if (cart !== initialCart) {
             updateCart();
         }
     }, [cart]); // Depend on the cart state
 
     const addToCart = (campaignData) => {
-        console.log("Selected donation value before adding to cart:", campaignData.donationAmount);
 
         setCart((currentCart) => {
             const existingItemIndex = currentCart.findIndex(item => item.campaign_id === campaignData.campaignId);
@@ -87,8 +84,8 @@ export const useCart = () => {
                     campaign_title: campaignData.campaignTitle,
                     image_url: campaignData.imageUrl,
                     donation_amount: campaignData.donationAmount,
-                    pledge_id: campaignData.pledgeId || null,  // Optional, only if available
-                    added_at: new Date().toISOString().slice(0, 19).replace('T', ' ')  // MySQL format: 'YYYY-MM-DD HH:MM:SS'
+                    pledge_id: campaignData.pledgeId,
+                    added_at: new Date().toISOString().slice(0, 19).replace('T', ' ')
                 };
 
                 // Log the new item
@@ -99,20 +96,13 @@ export const useCart = () => {
     };
 
     const removeFromCart = (campaignId) => {
-        console.log("Before remove:", cart); // Log the current state of the cart
-        console.log("Attempting to remove campaignId:", campaignId);
+
 
         setCart((currentCart) => {
-            const updatedCart = currentCart.filter((item) => {
-                console.log("Checking item:", item);
-                return item.campaignId !== campaignId; // Ensure the key matches
-            });
-
-            console.log("Updated cart after removal:", updatedCart); // Log the result
+            const updatedCart = currentCart.filter(item => item.campaignId !== campaignId);
             return updatedCart;
         });
     };
-
 
 
     const snakeToCamel = (str) => {
@@ -132,7 +122,6 @@ export const useCart = () => {
                     },
                 }
             );
-            console.log("Fetched cart: ", response.data)
 
             // Convert snake_case keys to camelCase for each item in the cart
             const camelCasedData = response.data.map((item) => {
@@ -143,10 +132,8 @@ export const useCart = () => {
                         camelCasedItem[snakeToCamel(key)] = item[key];
                     }
                 }
-                console.log("camelCasedItem: ", camelCasedItem)
                 return camelCasedItem;
             });
-            console.log("camelCasedData", camelCasedData)
 
             setCart(Immutable(camelCasedData)); // Set the cart state with converted data
         } catch (error) {
@@ -159,19 +146,21 @@ export const useCart = () => {
 
     // Function to calculate the total price of items in the cart
     const getCartTotal = () => {
-        console.log("Cart content before calculation:", cart);
+        console.log("Cart contents:", cart); // Inspect cart contents here
+
         return cart.reduce((total, item) => {
-            console.log("Item in cart:", item); // Log each item to check
+            console.log("Item in cart:", item); // Log individual items for debugging
+
             const donationAmount = item.donationAmount;
-            console.log("donationAmount", donationAmount)
+            console.log("Donation amount:", donationAmount); // Log donationAmount for each item
+
 
             if (!isNaN(donationAmount)) {
                 total += donationAmount;
             } else {
-                console.log("Donation amount is not valid:", item.donation_amount);
+                console.log("Donation amount is not valid:", donationAmount);
             }
 
-            console.log("total:", total); // Log total after each addition
             return total;
         }, 0);
     };

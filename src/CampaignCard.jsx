@@ -3,7 +3,14 @@ import { useCart } from './CartStore';
 import { useLocation } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
 
-const CampaignCard = ({ campaignId, campaignTitle, imageUrl, campaignDescription, campaignProgress }) => {
+const CampaignCard = ({ campaignId, campaignTitle, imageUrls = [], campaignDescription, campaignProgress }) => {
+    console.log("imageUrls", imageUrls);
+
+
+    // Clean up image URLs by trimming any leading or trailing spaces
+    const cleanedImageUrls = imageUrls.map(url => url.trim());
+    console.log("Cleaned Image URLs:", cleanedImageUrls);
+
 
     const { addToCart } = useCart();
     const [, setLocation] = useLocation();
@@ -37,14 +44,10 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrl, campaignDescription
         const campaignData = {
             campaignId: campaignId,
             campaignTitle: campaignTitle,
-            imageUrl: imageUrl,
+            imageUrl: cleanedImageUrls[0],
             donationAmount: selectedDonation,
             pledgeId: pledgeId,
         };
-
-        // Log campaignData to verify donationAmount is set
-        console.log("campaignData", campaignData); // todo showing as valid integer in donation_amount
-
 
         addToCart(campaignData); // Add campaign data to cart
         showMessage('Donation added to cart', 'success'); // Show success message
@@ -54,11 +57,41 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrl, campaignDescription
     return (
         <div className="col-md-12">
             <div className="card campaign-card">
-                <img
-                    src={imageUrl}
-                    className="card-img-top"
-                    alt={campaignTitle}
-                />
+                {cleanedImageUrls && cleanedImageUrls.length > 0 ? (
+                    <div id={`carousel${campaignId}`} className="carousel slide" data-bs-ride="carousel">
+                        {/* Carousel Indicators */}
+                        <ol className="carousel-indicators">
+                            {cleanedImageUrls.map((_, index) => (
+                                <li
+                                    key={index}
+                                    data-bs-target={`#carousel${campaignId}`}
+                                    data-bs-slide-to={index}
+                                    className={index === 0 ? 'active' : ''}
+                                ></li>
+                            ))}
+                        </ol>
+
+                        {/* Carousel Items */}
+                        <div className="carousel-inner">
+                            {cleanedImageUrls.map((url, index) => (
+                                <div key={index} className={`carousel-item ${index === 0 ? 'active' : ''}`}>
+                                    <img className="d-block w-100" src={url} alt={`Slide ${index + 1}`} />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Carousel Controls */}
+                        <a className="carousel-control-prev" href={`#carousel${campaignId}`} role="button" data-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                        </a>
+                        <a className="carousel-control-next" href={`#carousel${campaignId}`} role="button" data-bs-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                        </a>
+                    </div>
+                ) : (
+                    <p>No images available</p> // Fallback if no images are provided
+                )}
+
                 <div className="card-body">
                     <h5 className="card-title">{campaignTitle}</h5>
                     <p className="card-text">{campaignDescription || "This campaign aims to raise funds for various causes."}</p>
