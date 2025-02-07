@@ -4,13 +4,10 @@ import { useLocation } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
 
 const CampaignCard = ({ campaignId, campaignTitle, imageUrls = [], campaignDescription, campaignProgress }) => {
-    console.log("imageUrls", imageUrls);
 
 
     // Clean up image URLs by trimming any leading or trailing spaces
     const cleanedImageUrls = imageUrls.map(url => url.trim());
-    console.log("Cleaned Image URLs:", cleanedImageUrls);
-
 
     const { addToCart } = useCart();
     const [, setLocation] = useLocation();
@@ -93,8 +90,8 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrls = [], campaignDescr
                 )}
 
                 <div className="card-body">
-                    <h5 className="card-title">{campaignTitle}</h5>
-                    <p className="card-text">{campaignDescription || "This campaign aims to raise funds for various causes."}</p>
+                    <h5 className="card-title campaign-title">{campaignTitle}</h5>
+                    <p className="card-text lato-regular">{campaignDescription || "This campaign aims to raise funds for various causes."}</p>
 
                     {/* Predefined donation options */}
                     <div className="d-flex justify-content-between mb-3">
@@ -124,7 +121,7 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrls = [], campaignDescr
                     </div>
 
                     {/* Donate button */}
-                    <button className="btn btn-donate mt-3 w-100" onClick={handleAddToCart}>
+                    <button className="btn btn-donate mt-3 w-100 lato-regular" onClick={handleAddToCart}>
                         Donate ${selectedDonation}
                     </button>
                 </div>

@@ -3,7 +3,6 @@ import { useCart } from "./CartStore";
 import { useJwt } from "./UserStore";
 import axios from 'axios';
 
-
 export default function ShoppingCart() {
     // Get functions and state from the cart store
     const {
@@ -20,7 +19,7 @@ export default function ShoppingCart() {
 
     // Fetch the cart data when the component mounts
     useEffect(() => {
-        fetchCart();
+        fetchCart(); // Fetch cart data from the backend. 
     }, []);
 
 

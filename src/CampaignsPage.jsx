@@ -27,15 +27,14 @@ function CampaignsPage() {
             <h1>The Campaigns</h1>
             <div className="row">
                 {campaigns.map(campaign => {
-                    console.log("Campaign Image URL:", campaign.image_url); // Log image URL here
                     return (
                         <div key={campaign.campaign_id} className="col-md-4 mb-4">
                             <CampaignCard
                                 campaignId={campaign.campaign_id}
                                 imageUrl={campaign.image_url?.split(',')[0]} // Use the first image URL
                                 imageUrls={campaign.image_url?.split(',')} // Pass all URLs as an array (if needed)                                
-                                campaignTitle={campaign.title}
-                                campaignDescription={campaign.description}
+                                campaignTitle={campaign.campaign_name}
+                                campaignDescription={campaign.campaign_description}
                                 donationAmount={campaign.current_amount}
                                 campaignGoal={campaign.target_amount}
                                 campaignRaised={campaign.current_amount}

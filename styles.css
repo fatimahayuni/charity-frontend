@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
 /* Palestine Flag Colors */
 .palestine-red {
     background-color: #d50b21;
@@ -83,4 +86,183 @@
     100% {
         opacity: 0;
     }
+}
+
+/* Set the color for navbar links */
+
+.navbar {
+    font-family: "Montserrat", sans-serif !important;
+}
+
+.navbar .nav-link {
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: 500;
+    /* Adjust weight as needed */
+}
+
+.navbar-brand {
+    font-family: "Montserrat", sans-serif !important;
+    font-weight: 700;
+    /* Makes the brand stand out */
+}
+
+.navbar .nav-link {
+    color: white !important;
+    font-size: 1.5rem;
+}
+
+/* Set the color for active navbar links */
+.navbar .nav-link.active {
+    color: white !important;
+    font-weight: bold;
+}
+
+/* Set the color for navbar links on hover */
+.navbar .nav-link:hover {
+    color: white !important;
+}
+
+.merriweather-text {
+    font-family: 'Merriweather', serif;
+}
+
+
+
+/* Fonts */
+
+.montserrat-100> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.montserrat-200> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 200;
+    font-style: normal;
+}
+
+.montserrat-300> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.montserrat-400> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.montserrat-500> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.montserrat-600> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.montserrat-700> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.montserrat-800> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.montserrat-900> {
+    font-family: "Montserrat", serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.lato-thin {
+    font-family: "Lato", serif;
+    font-weight: 100;
+    font-style: normal;
+}
+
+.lato-light {
+    font-family: "Lato", serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.lato-regular {
+    font-family: "Lato", serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    font-style: normal;
+}
+
+.lato-bold {
+    font-family: "Lato", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.lato-black {
+    font-family: "Lato", serif;
+    font-weight: 900;
+    font-style: normal;
+}
+
+.lato-thin-italic {
+    font-family: "Lato", serif;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.lato-light-italic {
+    font-family: "Lato", serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.lato-regular-italic {
+    font-family: "Lato", serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.lato-bold-italic {
+    font-family: "Lato", serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.lato-black-italic {
+    font-family: "Lato", serif;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.campaign-title {
+    font-size: 1.5rem;
+    /* Slightly larger */
+    font-weight: bold;
+}
+
+.campaign-description {
+    font-size: 1rem;
+    /* Normal size */
+    font-family: 'Merriweather', serif;
+    /* If you want this to be in Merriweather */
 }

@@ -7,9 +7,8 @@ import ShoppingCart from './ShoppingCart';
 import { Route, Switch } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
 import UserLogin from "./UserLogin"
+import PaymentSuccess from './PaymentSuccess';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
-
 
 function App() {
     const { getMessage, clearMessage } = useFlashMessage();
@@ -39,9 +38,7 @@ function App() {
                 <Route path="/register" component={RegisterPage} />
                 <Route path="/login" component={UserLogin} />
                 <Route path="/cart" component={ShoppingCart} />
-                {/* <Route path="/adminform" component={AdminForm} /> */}
-
-
+                <Route path="/payment-success" component={PaymentSuccess} />
             </Switch>
 
             <footer className="text-center py-4" style={{ backgroundColor: '#333', color: 'white' }}>

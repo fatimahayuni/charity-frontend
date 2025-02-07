@@ -4,9 +4,7 @@ import Immutable from "seamless-immutable";
 import { useEffect } from "react";
 import { useJwt } from "./UserStore";
 
-
-
-// Define the initial state of the cart. We put in one piece of test data
+// Define the initial state of the cart. 
 const initialCart = Immutable([]);
 
 // Create an atom for the cart
@@ -55,6 +53,13 @@ export const useCart = () => {
                     },
                 }
             );
+
+            // Handle the response (if needed)
+            if (response.status === 200) {
+                console.log("Cart updated successfully", response.data);
+                // You could update some UI state here, or notify the user
+            }
+
         } catch (error) {
             console.error("Error updating cart:", error.response?.data || error);
         } finally {
@@ -70,6 +75,8 @@ export const useCart = () => {
     }, [cart]); // Depend on the cart state
 
     const addToCart = (campaignData) => {
+        if (isLoading) return; // Prevent actions while loading
+
 
         setCart((currentCart) => {
             const existingItemIndex = currentCart.findIndex(item => item.campaign_id === campaignData.campaignId);
@@ -89,7 +96,6 @@ export const useCart = () => {
                 };
 
                 // Log the new item
-                console.log("New item added to cart:", newItem);
                 return currentCart.concat(newItem);
             }
         });
@@ -146,13 +152,9 @@ export const useCart = () => {
 
     // Function to calculate the total price of items in the cart
     const getCartTotal = () => {
-        console.log("Cart contents:", cart); // Inspect cart contents here
-
         return cart.reduce((total, item) => {
-            console.log("Item in cart:", item); // Log individual items for debugging
 
             const donationAmount = item.donationAmount;
-            console.log("Donation amount:", donationAmount); // Log donationAmount for each item
 
 
             if (!isNaN(donationAmount)) {
