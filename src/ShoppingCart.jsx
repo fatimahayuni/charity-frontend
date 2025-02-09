@@ -18,9 +18,12 @@ export default function ShoppingCart() {
     const { getJwt } = useJwt();
 
     // Fetch the cart data when the component mounts
-    useEffect(() => {
-        fetchCart(); // Fetch cart data from the backend. 
-    }, []);
+    //todo temporary comment out because i don't want jwt to be called when the user hasn't logged in yet. 
+    // useEffect(() => {
+    //     console.log("ShoppingCart mounted");
+
+    //     fetchCart(); // Fetch cart data from the backend. 
+    // }, []);
 
 
     // API: Handle Checkout
@@ -28,6 +31,14 @@ export default function ShoppingCart() {
         const jwt = getJwt();
         console.log("Order items being sent:", cart); // Log the cart data being sent
 
+        // Check if JWT exists and is valid
+        if (!jwt) {
+            // No JWT, user is not logged in, handle accordingly (localStorage or alert)
+            console.log('No JWT, user is not logged in. Saving cart in localStorage.');
+            localStorage.setItem('cart', JSON.stringify(cart)); // Save cart to localStorage for later
+            alert('Please log in to proceed with checkout!');
+            return;
+        }
 
         try {
             const response = await axios.post(
@@ -64,7 +75,7 @@ export default function ShoppingCart() {
                         {cart.map((item) => {
                             return (
                                 <li
-                                    key={`${item.campaignId}-${item.donationAmount}`}
+                                    key={`${item.id}`}
                                     className="list-group-item d-flex justify-content-between align-items-center"
                                 >
                                     <div>
@@ -88,7 +99,7 @@ export default function ShoppingCart() {
                                     <div>
                                         <button
                                             className="btn btn-sm btn-danger"
-                                            onClick={() => removeFromCart(item.campaignId, item.donationAmount)} // Pass donation amount too
+                                            onClick={() => removeFromCart(item.id)}
                                             disabled={isLoading}
                                         >
                                             Remove

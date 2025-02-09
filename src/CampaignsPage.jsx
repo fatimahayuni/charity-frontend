@@ -10,7 +10,6 @@ function CampaignsPage() {
             try {
                 const apiUrl = `${import.meta.env.VITE_API_URL}/api/campaigns`;
                 const response = await axios.get(apiUrl);
-                console.log('Fetched Campaigns:', response.data);
                 setCampaigns(response.data);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);

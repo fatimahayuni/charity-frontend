@@ -13,7 +13,7 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrls = [], campaignDescr
     const [, setLocation] = useLocation();
     const { showMessage } = useFlashMessage();
 
-    const [selectedDonation, setSelectedDonation] = useState(10); // Default donation amount
+    const [selectedDonation, setSelectedDonation] = useState(5); // Default donation amount
 
     // Hardcoded pledge ID to donation amount map
     const pledgeIdMap = {
@@ -45,6 +45,8 @@ const CampaignCard = ({ campaignId, campaignTitle, imageUrls = [], campaignDescr
             donationAmount: selectedDonation,
             pledgeId: pledgeId,
         };
+
+        console.log("campaignData", campaignData)
 
         addToCart(campaignData); // Add campaign data to cart
         showMessage('Donation added to cart', 'success'); // Show success message

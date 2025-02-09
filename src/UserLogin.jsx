@@ -26,7 +26,6 @@ function UserLogin() {
         try {
             const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/login', values);
 
-
             setJwt(response.data.token); // Store the JWT
             actions.setSubmitting(false);
             showMessage('Login successful!', 'success');
