@@ -29,9 +29,11 @@
 // }
 
 import { atom, useAtom } from 'jotai';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; //todo what is this for again?
+import Cookies from "js-cookie";
 
-const jwtAtom = atom(null);
+
+const jwtAtom = atom(Cookies.get("jwt") || null);
 const userIdAtom = atom(null);
 
 export function useJwt() {
@@ -39,8 +41,10 @@ export function useJwt() {
     const [userId, setUserIdAtom] = useAtom(userIdAtom);
 
     const setJwt = (newJwt) => {
-        localStorage.setItem('jwt', newJwt);
+        // Store JWT in cookies (valid for 7 days)
+        Cookies.set("jwt", newJwt, { expires: 7, secure: true, sameSite: "None" });
         setJwtAtom(newJwt);
+
         // Decode the JWT to extract the userId and update the userId atom
         try {
             const decoded = jwtDecode(newJwt);
@@ -51,7 +55,7 @@ export function useJwt() {
     };
 
     const getJwt = () => {
-        const storedJwt = localStorage.getItem('jwt');
+        const storedJwt = Cookies.get("jwt"); // Get JWT from cookies
         if (storedJwt && !jwt) {
             setJwtAtom(storedJwt);
         }
@@ -59,10 +63,11 @@ export function useJwt() {
     };
 
     const clearJwt = () => {
-        localStorage.removeItem('jwt');
+        Cookies.remove("jwt"); // Remove JWT from cookies
         setJwtAtom(null);
         setUserIdAtom(null);
     };
+
 
     return { jwt, setJwt, getJwt, clearJwt, userId };
 }

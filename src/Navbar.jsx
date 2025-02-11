@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
+import axios from 'axios';
+import { useJwt } from "./UserStore";
+import Cookies from 'js-cookie';
+
 
 function Navbar() {
     const [isNavbarShowing, setNavbarShowing] = useState(false);
-    // returns the current URL
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [location] = useLocation();
-
+    const { jwt } = useJwt();
+    console.log("jwt on line 13: ", jwt)
     // Toggle the collapse state
     const toggleNavbar = () => {
         setNavbarShowing(prevState => !prevState);
@@ -26,6 +31,43 @@ function Navbar() {
         // Cleanup the listener on unmount
         return () => window.removeEventListener('resize', syncNavbarState);
     }, []);
+
+    // Check the login status by verifying the JWT cookie on every mount
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/auth/status', { withCredentials: true }); // Ensure credentials are included
+                console.log("Response: ", response.data)
+
+                setIsLoggedIn(response.data.isLoggedIn);
+            } catch (error) {
+                console.error("Error checking login status:", error);
+            }
+        };
+
+        checkLoginStatus();
+    }, [jwt]);
+
+
+    const handleLogout = async () => {
+        try {
+            const response = await axios.post('http://localhost:3000/auth/logout', {}, {
+                withCredentials: true
+            });
+            console.log("response in handleLogout", response.data);
+
+            if (response.status === 200) {
+                console.log("if response is okay...");
+                setIsLoggedIn(false); // Update login status
+                console.log("User logged out, updating UI...");
+                window.location.href = '/'; // Redirect after logout
+            } else {
+                console.log("error in else block", response.status);
+            }
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
 
 
     return (
@@ -55,9 +97,27 @@ function Navbar() {
                         <li className="nav-item">
                             <Link href="/register" className={`nav-link ${location === '/register' ? 'active' : ''}`}>Register</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link href="/login" className={`nav-link ${location === '/login' ? 'active' : ''}`}>Login</Link>
-                        </li>
+
+                        {/* Conditionally render Login or Logout based on JWT existence */}
+                        {isLoggedIn ? (
+                            <li className="nav-item">
+                                <Link
+                                    href="#"
+                                    onClick={handleLogout}
+                                    className={`nav-link ${location === '/' ? 'active' : ''}`}>
+                                    Logout
+                                </Link>
+                            </li>
+                        ) : (
+                            <li className="nav-item">
+                                <Link
+                                    href="/login"
+                                    className={`nav-link ${location === '/login' ? 'active' : ''}`}>
+                                    Login
+                                </Link>
+                            </li>
+                        )}
+
 
                         <li className="nav-item">
                             <Link href="/donate" className={`nav-link ${location === '/donate' ? 'active' : ''}`}>Donate</Link>

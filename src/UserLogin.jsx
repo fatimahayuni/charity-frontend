@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useLocation } from 'wouter';
 import { useFlashMessage } from './FlashMessageStore';
 import { useJwt } from './UserStore';
+import Cookies from 'js-cookie';
+
 
 
 function UserLogin() {
@@ -24,10 +26,22 @@ function UserLogin() {
 
     const handleSubmit = async (values, actions) => {
         try {
-            const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/login', values);
+            const response = await axios.post(import.meta.env.VITE_API_URL + '/api/users/login', values,
+                { withCredentials: true } // to send cookies (JWT) with the request
+            );
+            console.log("user details in UserLogin.jsx: ", response.data)
 
-            setJwt(response.data.token); // Store the JWT
-            actions.setSubmitting(false);
+            // Set cookie with secure attributes
+            Cookies.set('jwt', response.data.token, {
+                expires: 7, // Store JWT for 7 days
+                secure: true, // Only send over HTTPS (remove if testing on localhost without HTTPS)
+                sameSite: 'Lax' // Adjust this if your frontend and backend are on different domains
+            });
+            console.log("JWT stored in cookies:", Cookies.get('jwt'));
+
+            // Store the JWT in cookies
+            setJwt(response.data.token);
+            // actions.setSubmitting(false);
             showMessage('Login successful!', 'success');
             setLocation('/');
         } catch (error) {
