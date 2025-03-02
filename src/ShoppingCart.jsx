@@ -11,26 +11,18 @@ export default function ShoppingCart() {
         removeFromCart,
         fetchCart,
         isLoading,
+        clearCart
     } = useCart();
 
     const cart = getCart(); // Retrieve cart from the store
-
     const { getJwt } = useJwt();
-
-    // Fetch the cart data when the component mounts
-    //todo temporary comment out because i don't want jwt to be called when the user hasn't logged in yet. 
-    // useEffect(() => {
-    //     console.log("ShoppingCart mounted");
-
-    //     fetchCart(); // Fetch cart data from the backend. 
-    // }, []);
 
 
     // API: Handle Checkout
     const handleCheckout = async () => {
         const jwt = getJwt();
-        console.log("Order items being sent:", cart); // Log the cart data being sent
-
+        console.log("API URL:", import.meta.env.VITE_API_URL); // Check if the API URL is correct
+        console.log("Order items being sent:", JSON.stringify(cart, null, 2)); // Check the cart data
         // Check if JWT exists and is valid
         if (!jwt) {
             // No JWT, user is not logged in, handle accordingly (localStorage or alert)
@@ -41,13 +33,15 @@ export default function ShoppingCart() {
         }
 
         try {
+
             const response = await axios.post(
                 `${import.meta.env.VITE_API_URL}/api/checkout`,
-                {},
+                { orderItems: cart }, // Send the cart items as the request body
                 {
                     headers: {
-                        Authorization: `Bearer ${jwt}`,
+                        Authorization: `Bearer ${jwt}`, // Send the JWT token in the headers
                     },
+                    withCredentials: true, // Make sure cookies are sent with the request
                 }
             );
 

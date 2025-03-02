@@ -4,13 +4,11 @@ import axios from 'axios';
 import { useJwt } from "./UserStore";
 import Cookies from 'js-cookie';
 
-
 function Navbar() {
     const [isNavbarShowing, setNavbarShowing] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [location] = useLocation();
     const { jwt } = useJwt();
-    console.log("jwt on line 13: ", jwt)
     // Toggle the collapse state
     const toggleNavbar = () => {
         setNavbarShowing(prevState => !prevState);
@@ -36,9 +34,7 @@ function Navbar() {
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/auth/status', { withCredentials: true }); // Ensure credentials are included
-                console.log("Response: ", response.data)
-
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/status`, { withCredentials: true }); // Ensure credentials are included
                 setIsLoggedIn(response.data.isLoggedIn);
             } catch (error) {
                 console.error("Error checking login status:", error);
@@ -51,15 +47,12 @@ function Navbar() {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://localhost:3000/auth/logout', {}, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
                 withCredentials: true
             });
-            console.log("response in handleLogout", response.data);
 
             if (response.status === 200) {
-                console.log("if response is okay...");
                 setIsLoggedIn(false); // Update login status
-                console.log("User logged out, updating UI...");
                 window.location.href = '/'; // Redirect after logout
             } else {
                 console.log("error in else block", response.status);

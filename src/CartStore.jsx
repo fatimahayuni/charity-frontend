@@ -10,14 +10,6 @@ const initialCart = Immutable([]);
 export const cartAtom = atom(initialCart);
 export const cartLoadingAtom = atom(false);
 
-const camelToSnake = (str) => {
-    if (typeof str !== 'string') {
-        console.error('Expected a string, but got:', str);
-        return str;
-    }
-    return str.replace(/([A-Z])/g, (match) => `_${match.toLowerCase()}`);
-};
-
 const snakeToCamel = (str) => {
     return str.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
 };
@@ -27,6 +19,9 @@ export const useCart = () => {
     const [cart, setCart] = useAtom(cartAtom);
     const [isLoading, setIsLoading] = useAtom(cartLoadingAtom);
     const { getJwt } = useJwt();
+
+    console.log('useCart:', { cart, setCart });  // Log cart and setCart to see if they are available
+
 
     const addToCart = (campaignData) => {
         try {
@@ -115,6 +110,8 @@ export const useCart = () => {
     const getCart = () => cart;
 
     return {
+        cart,
+        setCart,
         getCart,
         getCartTotal,
         addToCart,

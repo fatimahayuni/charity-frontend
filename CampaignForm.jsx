@@ -8,7 +8,6 @@ import axios from 'axios';
 import "./index.css";
 import '@uploadcare/react-uploader/core.css';
 
-
 // Validation Schema using Yup
 const validationSchema = Yup.object({
     title: Yup.string().required("Title is required"),
@@ -52,7 +51,7 @@ const CampaignForm = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/api/campaigns', payload);
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/campaigns`, payload);
             console.log("Form data successfully sent:", response.data);
         } catch (error) {
             console.error("Error submitting form data:", error);

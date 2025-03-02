@@ -10,7 +10,20 @@ function CampaignsPage() {
             try {
                 const apiUrl = `${import.meta.env.VITE_API_URL}/api/campaigns`;
                 const response = await axios.get(apiUrl);
-                setCampaigns(response.data);
+
+                // Calculate progress for each campaign here
+                const updatedCampaigns = response.data.map(campaign => {
+                    const campaignProgress = campaign.target_amount > 0
+                        ? Math.min(100, (campaign.current_amount / campaign.target_amount) * 100)
+                        : 0;
+
+                    return {
+                        ...campaign,
+                        campaignProgress: parseFloat(campaignProgress.toFixed(1)),
+                    };
+                });
+
+                setCampaigns(updatedCampaigns);
             } catch (error) {
                 console.error('Error fetching campaigns:', error);
                 console.error('Full error:', error);
@@ -37,7 +50,8 @@ function CampaignsPage() {
                                 donationAmount={campaign.current_amount}
                                 campaignGoal={campaign.target_amount}
                                 campaignRaised={campaign.current_amount}
-                                campaignProgress={(campaign.current_amount / campaign.target_amount) * 100}
+                                campaignProgress={campaign.campaignProgress}
+
                             />
                         </div>
                     );

@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useCart } from './CartStore';
+
 
 const PaymentSuccess = () => {
+    const { setCart } = useCart();
     const [order, setOrder] = useState(null);
     const [campaignProgress, setCampaignProgress] = useState(0);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const orderId = queryParams.get('orderId'); // Get the orderId from the URL query
+    const orderId = queryParams.get('orderId');
+    // const { setCart } = useCart();
 
     // Define an async function for fetching order details
     const fetchOrderDetails = async () => {
         if (orderId) {
             try {
-                const response = await axios.get(`http://localhost:3000/api/orders/${orderId}`);
+                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/orders/${orderId}`);
                 console.log('Response Data:', response.data);
 
                 if (response.data) {
@@ -23,7 +27,7 @@ const PaymentSuccess = () => {
                     const progress = response.data.campaignProgress !== undefined
                         ? response.data.campaignProgress
                         : 0;
-                    setCampaignProgress(progress); // Set campaign progress if available
+                    setCampaignProgress(progress); // Set campaign progress 
                 }
             } catch (error) {
                 console.error('Error fetching order:', error);
@@ -31,8 +35,16 @@ const PaymentSuccess = () => {
         }
     };
 
+    // Function to clear the cart from localStorage
+    const clearCart = () => {
+        localStorage.removeItem('cart');
+        setCart([]);
+    };
+
+
     useEffect(() => {
-        fetchOrderDetails(); // Call the async function when the component mounts or orderId changes
+        fetchOrderDetails();
+        clearCart();
     }, [orderId]);
 
     return (
